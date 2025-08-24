@@ -20,8 +20,8 @@ export default defineConfig({
       }
     }
   },
-  envDir,
-  envPrefix: 'MFE_',
+  envDir, // 指向根目录
+  envPrefix: ['VITE_', 'MFE_'], // 支持 VITE_ 和 MFE_ 前缀
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.scss', '.css'],
     alias: {
@@ -34,8 +34,12 @@ export default defineConfig({
     open: true, // 自动打开浏览器
     port: 3006, // 服务端口
     proxy: {
-      '/api': '', // api代理路径
-      '/mock': '' // mock代理路径
+      // '/api':
+      // {
+      //   target: 'http://localhost:3000', // api代理路径
+      //   changeOrigin: true,
+      //   rewrite: path => path.replace(/^\/api/, '')
+      // }
     }
   },
   plugins: [

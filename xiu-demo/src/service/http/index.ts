@@ -2,7 +2,7 @@ import service from './axios.ts';
 import { getQueryString, cleanRes } from './httpTools.ts';
 
 // 封装get,post,put等方法
-export const get = (url: string, query: object | undefined) => {
+export const get = (url: string, query?: object | undefined) => {
   return cleanRes(
     service({
       url: url + getQueryString(query),

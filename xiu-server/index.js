@@ -1,11 +1,13 @@
 const http = require("http");
 const express = require("express");
+const cors = require("cors");
 const { getPubKeyPem, privateDecrypt } = require("./keys");
 const { generateToken, authenticateToken } = require("./jwt");
 
 // 使用Express创建HTTP服务器
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // 获取密钥
 app.get("/publicKey", (req, res) => {

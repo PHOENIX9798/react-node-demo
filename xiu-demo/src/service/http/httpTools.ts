@@ -14,7 +14,8 @@ export const handleAuth = (config: InternalAxiosRequestConfig<any>) => {
 
 // 匹配网络错误
 export const handleNetErr = (error: { response: { status: string } }) => {
-  const { status } = error.response;
+  const { status } = error?.response || {};
+  console.log('error :>> ', error);
   const errMsg = netWorkErrMap[status] || '未知错误';
   //显示错误
   message.error({ content: errMsg, duration: 2 });

@@ -23,5 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
+  "extends": "./tsconfig.json", // 解决文件地址找不到的问题，是因为没有继承
   "include": ["src"]
 }

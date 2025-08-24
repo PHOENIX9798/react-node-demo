@@ -48,8 +48,8 @@ const getPrivateKeyPem = () => {
   const privateKey = fs.readFileSync(filepath, "utf8");
   if (!privateKey) {
     const { publicKeyPem, privateKeyPem } = createKeys();
-    setPubKey(publicKeyPem);
-    setPrivateKey(privateKeyPem);
+    setPubKeyPem(publicKeyPem);
+    setPrivateKeyPem(privateKeyPem);
     return privateKeyPem;
   }
   return privateKey;
