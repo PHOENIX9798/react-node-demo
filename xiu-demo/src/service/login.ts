@@ -7,3 +7,5 @@ export const getPubKey = () => {
 export const login = (data: object) => {
   return post('/login', data);
 };
+
+export const getRefreshToken = () => get('/refreshToken');

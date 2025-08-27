@@ -16,7 +16,7 @@ export default defineConfig({
           //配置全局变量
           blue: '#1CC0FF'
         },
-        additionalData: '@import "./src/global.less";  ' // 或者自动将全局变量文件引入每个less文件中
+        additionalData: '@import "@/global.less";' // 使用别名导入全局变量文件
       }
     }
   },

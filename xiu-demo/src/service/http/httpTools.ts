@@ -1,32 +1,34 @@
 import { message } from 'antd';
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { netWorkErrMap, authErrMap } from './config.ts';
+import { getRefreshTokenByLocal, getTokenByLocal } from '@/common/keyAndToken.ts';
 
 // 添加token
 export const handleRequestHeader = (config: InternalAxiosRequestConfig<any>, otherConfig: object) => {
   return { ...config, ...otherConfig };
 };
 // 添加限权
-export const handleAuth = (config: InternalAxiosRequestConfig<any>) => {
-  config.headers['Authorization'] = localStorage.getItem('token') || '';
+export const handleAuth = (config: InternalAxiosRequestConfig<any>, isRefreshTokening: boolean = false) => {
+  const token = isRefreshTokening ? getRefreshTokenByLocal() : getTokenByLocal();
+  config.headers['Authorization'] = token ? 'Bearer ' + token : '';
   return config;
 };
 
 // 匹配网络错误
 export const handleNetErr = (error: { response: { status: string } }) => {
-  const { status } = error?.response || {};
-  console.log('error :>> ', error);
-  const errMsg = netWorkErrMap[status] || '未知错误';
+  const { status } = error.response;
+  const { msg, afterErr } = netWorkErrMap[status] || { msg: '未知网络错误' };
   //显示错误
-  message.error({ content: errMsg, duration: 2 });
+  msg && message.error({ content: msg, duration: 2 });
+  afterErr && afterErr();
 };
+
 // 匹配授权错误
 export const handleAuthError = (res: AxiosResponse<any>) => {
   const { code } = res.data;
-  const errMsg = authErrMap[code] || '未知错误';
-  message.error({ content: errMsg, duration: 2 });
-
-  // 登出
+  const { msg, afterErr } = authErrMap[code] || {};
+  msg && message.error({ content: msg, duration: 2 });
+  afterErr && afterErr();
 };
 
 /**

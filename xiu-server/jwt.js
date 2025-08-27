@@ -8,6 +8,12 @@ const options = {
   algorithm: "RS256", // 使用RAS非对称加密进行签名
 };
 
+// 无感刷新token所以来的token
+const refreshOptions = {
+  expiresIn: "2m",
+  algorithm: "RS256",
+};
+
 // 生成并签发JWT令牌
 function generateToken(user) {
   const payload = { username: user.username };
@@ -39,7 +45,14 @@ function authenticateToken(req, res, next) {
   }
 }
 
+// 签发无感刷新使用的token
+function generateReFreshToken(user) {
+  const payload = { username: user.username };
+  return jwt.sign(payload, secret, refreshOptions);
+}
+
 module.exports = {
   generateToken,
   authenticateToken,
+  generateReFreshToken,
 };

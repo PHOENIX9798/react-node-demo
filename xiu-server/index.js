@@ -2,7 +2,11 @@ const http = require("http");
 const express = require("express");
 const cors = require("cors");
 const { getPubKeyPem, privateDecrypt } = require("./keys");
-const { generateToken, authenticateToken } = require("./jwt");
+const {
+  generateToken,
+  generateReFreshToken,
+  authenticateToken,
+} = require("./jwt");
 
 // 使用Express创建HTTP服务器
 const app = express();
@@ -28,8 +32,9 @@ app.post("/login", (req, res) => {
     // 整个模拟数据
     // 登录成功,签发token
     const token = generateToken({ username }); // 签发token的时候把用户名带上
+    const refreshToken = generateReFreshToken({ username });
     res.send({
-      data: { token },
+      data: { token, refreshToken },
       err: null,
       success: true,
     });
@@ -40,6 +45,22 @@ app.post("/login", (req, res) => {
     err: "没有找到用户",
     success: false,
     code: 10034,
+  });
+});
+
+// 无感刷新token,authenticateToken用上之前写的鉴权中间件,鉴别token是否有效
+app.get("/refreshToken", authenticateToken, (req, res) => {
+  const { username, password } = req.user;
+  // 新token
+  const token = generateToken({ username, password });
+  // 新refreshToken
+  const refreshToken = generateReFreshToken({ username, password });
+  res.send({
+    data: {
+      token,
+      refreshToken,
+    },
+    success: true,
   });
 });
 

@@ -3,6 +3,7 @@ import {
   Link,
 } from "react-router-dom";
 import Login from '@/pages/Login'
+import { TestSendRequest } from "@/pages/TestSendRequest";
 import { Divider } from "antd";
 
 const router = createBrowserRouter([
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
     element: (
       <div>
         <h1>Welcome to xiuxiu demo</h1>
-        <Link to="/login">login</Link>
+        <Link to="/login">To login</Link>
         <Divider type="vertical" />
         <Link to="/home">About me</Link>
       </div>
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: "home",
-    element: <>xiuxiu</>,
+    element: <TestSendRequest />,
   },
 ]);
 
