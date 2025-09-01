@@ -11,7 +11,7 @@ export const get = (url: string, query?: object | undefined) => {
   );
 };
 
-export const post = (url: string, data: object) => {
+export const post = (url: string, data: object, extraParams?: { headers: { 'Content-Type': string; }; }) => {
   return cleanRes(
     service({
       url: url,
